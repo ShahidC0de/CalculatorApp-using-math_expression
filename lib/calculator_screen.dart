@@ -1,5 +1,7 @@
-import 'package:calculator_app/btn_class.dart';
+import 'package:calculator_app/widgets.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -9,98 +11,197 @@ class CalculatorScreen extends StatefulWidget {
 }
 
 class _CalculatorScreenState extends State<CalculatorScreen> {
-  String number1 = "";
-  String operand = "";
-  String number2 = "";
-
+  var userInput = '';
+  var result = '';
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Colors.black,
       body: SafeArea(
-        bottom: false,
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                reverse: true,
-                child: Container(
-                  alignment: Alignment.bottomRight,
-                  padding: const EdgeInsets.all(16),
-                  child: Text(
-                    "$number1$operand$number2".isEmpty
-                        ? "0"
-                        : "$number1$operand$number2",
-                    style: const TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.end,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Column(
+                    children: [
+                      Text(
+                        userInput.toString(),
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 48),
+                      )
+                    ],
                   ),
                 ),
               ),
-            ),
-            Wrap(
-              children: Btn.buttonValues
-                  .map((value) => SizedBox(
-                      width: value == Btn.n0
-                          ? screenSize.width / 2
-                          : screenSize.width / 4,
-                      height: screenSize.width / 5,
-                      child: buildButton(value)))
-                  .toList(),
-            )
-          ],
+              Expanded(
+                flex: 2,
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        CalculatorButton(
+                          onpress: () {},
+                          title: 'AC',
+                        ),
+                        CalculatorButton(
+                          onpress: () {},
+                          title: '+/-',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '%';
+                            setState(() {});
+                          },
+                          title: '%',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '/';
+                            setState(() {});
+                          },
+                          title: '/',
+                          color: const Color(0xffffa00a),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '7';
+                            setState(() {});
+                          },
+                          title: '7',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '8';
+                            setState(() {});
+                          },
+                          title: '8',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '9';
+                            setState(() {});
+                          },
+                          title: '9',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += 'x';
+                            setState(() {});
+                          },
+                          title: 'x',
+                          color: const Color(0xffffa00a),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '4';
+                            setState(() {});
+                          },
+                          title: '4',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '5';
+                            setState(() {});
+                          },
+                          title: '5',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '6';
+                            setState(() {});
+                          },
+                          title: '6',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '-';
+                            setState(() {});
+                          },
+                          title: '-',
+                          color: const Color(0xffffa00a),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '1';
+                            setState(() {});
+                          },
+                          title: '1',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '2';
+                            setState(() {});
+                          },
+                          title: '2',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '3';
+                            setState(() {});
+                          },
+                          title: '3',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '+';
+                            setState(() {});
+                          },
+                          title: '+',
+                          color: const Color(0xffffa00a),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '0';
+                            setState(() {});
+                          },
+                          title: '0',
+                        ),
+                        CalculatorButton(
+                          onpress: () {
+                            userInput += '.';
+                            setState(() {});
+                          },
+                          title: '.',
+                        ),
+                        CalculatorButton(
+                          onpress: () {},
+                          title: 'DEL',
+                        ),
+                        CalculatorButton(
+                          onpress: () {},
+                          title: '=',
+                          color: const Color(0xffffa00a),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
-  }
-
-  Widget buildButton(value) {
-    return Padding(
-      padding: const EdgeInsets.all(4.0),
-      child: Material(
-          color: getBtnColor(value),
-          clipBehavior: Clip.hardEdge,
-          shape: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(100),
-            borderSide: const BorderSide(color: Colors.white24),
-          ),
-          child: InkWell(
-              onTap: () => onBtnTap(value),
-              child: Center(
-                  child: Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              )))),
-    );
-  }
-
-  //.............. to return value whenever btn is pressed;
-  void onBtnTap(value) {
-    setState(() {
-      number1 += value;
-    });
-  }
-
-  Color getBtnColor(String value) {
-    return [
-      Btn.del,
-      Btn.clr,
-    ].contains(value)
-        ? Colors.blueGrey
-        : [
-            Btn.per,
-            Btn.add,
-            Btn.multiply,
-            Btn.subtract,
-            Btn.calculate,
-            Btn.divide,
-          ].contains(value)
-            ? Colors.orange
-            : Colors.black87;
   }
 }
