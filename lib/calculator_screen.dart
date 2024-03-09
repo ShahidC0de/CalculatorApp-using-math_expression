@@ -2,6 +2,7 @@ import 'package:calculator_app/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:math_expressions/math_expressions.dart';
 
 class CalculatorScreen extends StatefulWidget {
   const CalculatorScreen({super.key});
@@ -28,12 +29,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                   child: Column(
                     children: [
                       Text(
-                        userInput.toString(),
+                        userInput.isNotEmpty
+                            ? userInput[0] == 'x' || userInput[0] == '/'
+                                ? userInput = ''
+                                : userInput.toString()
+                            : userInput.toString(),
                         style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 48),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -45,7 +50,11 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                     Row(
                       children: [
                         CalculatorButton(
-                          onpress: () {},
+                          onpress: () {
+                            userInput = '';
+                            result = '';
+                            setState(() {});
+                          },
                           title: 'AC',
                         ),
                         CalculatorButton(
@@ -185,11 +194,18 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
                           title: '.',
                         ),
                         CalculatorButton(
-                          onpress: () {},
+                          onpress: () {
+                            userInput =
+                                userInput.substring(0, userInput.length - 1);
+                            setState(() {});
+                          },
                           title: 'DEL',
                         ),
                         CalculatorButton(
-                          onpress: () {},
+                          onpress: () {
+                            calculate();
+                            setState(() {});
+                          },
                           title: '=',
                           color: const Color(0xffffa00a),
                         ),
@@ -203,5 +219,16 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
         ),
       ),
     );
+  }
+
+  void calculate() {
+    String finalUserInput = userInput;
+    finalUserInput = userInput.replaceAll('x', '*');
+    Parser parser = Parser();
+    Expression expression = parser.parse(finalUserInput);
+    ContextModel contextModel = ContextModel();
+    double eval = expression.evaluate(EvaluationType.REAL, contextModel);
+    userInput = eval.toString();
+    setState(() {});
   }
 }
