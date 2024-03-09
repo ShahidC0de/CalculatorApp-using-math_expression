@@ -1,7 +1,5 @@
 import 'package:calculator_app/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class CalculatorScreen extends StatefulWidget {
